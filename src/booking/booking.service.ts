@@ -5,6 +5,28 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class BookingService {
     constructor(private prisma: PrismaService){}
+
+    async getBookings(userId: number) {
+      try {
+        const bookings = await this.prisma.booking.findMany({
+          where: {
+            passengerId: userId,
+          },
+        })
+          return bookings 
+      } catch (error) {
+        console.log('Cant book ride: ', error);
+        if (
+          error instanceof NotFoundException ||
+          error instanceof BadRequestException
+        ) {
+          throw error;
+        } else {
+          throw new InternalServerErrorException('Unknown error occurred');
+        }
+      }
+    }
+
     async cancelBooking(userId: number, bookingId: number) {
         try {
           const booking = await this.prisma.booking.findUnique({
