@@ -21,9 +21,10 @@ model User {
   lastName  String
   role      UserRole @default(NORMAL_USER)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdRides      Ride[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  createdRides Ride[]
+  booking      Booking[]
 
   @@map("users")
 }
@@ -34,16 +35,42 @@ enum UserRole {
 }
 
 model Coordinates {
-  id        Int   @id @default(autoincrement())
-  longitude Float
-  latitude  Float
+  id           Int     @id @default(autoincrement())
+  longitude    Float
+  latitude     Float
+  locationName String?
+
+  @@map("coordinates")
 }
 
 model Ride {
-  id Int @id @default(autoincrement())
-  // sourceCoords   Coordinates
-  // destinationCoords Coordinates
+  id                   Int      @id @default(autoincrement())
+  sourceLatitude       Float
+  sourceLongitude      Float
+  destinationLatitude  Float
+  destinationLongitude Float
+  dateTime             DateTime
+  driver               User     @relation(fields: [driverId], references: [id])
+  driverId             Int
 
-  driver   User @relation(fields: [driverId], references: [id])
-  driverId Int
+  booking Booking[]
+
+  @@map("rides")
+}
+
+enum BookingStatus {
+  BOOKED
+  CANCELLED
+}
+
+model Booking {
+  id          Int           @id @default(autoincrement())
+  ride        Ride          @relation(fields: [rideId], references: [id])
+  rideId      Int
+  passenger   User          @relation(fields: [passengerId], references: [id])
+  passengerId Int
+  status      BookingStatus @default(BOOKED)
+
+  @@index([passengerId], name: "idx_passenger_id")
+  @@map("bookings")
 }

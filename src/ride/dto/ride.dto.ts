@@ -1,10 +1,22 @@
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsISO8601, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
+export class CoordinatesDto {
+    @IsNumber()
+    @IsNotEmpty()
+    latitude: number;
+  
+    @IsNumber()
+    @IsNotEmpty()
+    longitude: number;
+  }
 export class RideDto{
-    @IsString()
     @IsNotEmpty()
-    source: string
-    @IsString()
+    source: CoordinatesDto;
+  
     @IsNotEmpty()
-    destination: string
+    destination: CoordinatesDto;
+
+    @IsISO8601() 
+    @IsNotEmpty()
+    dateTime: string;
 }

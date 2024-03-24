@@ -37,6 +37,7 @@ export class AuthService {
         data: {
           email: dto.email,
           hash,
+          role: dto.role,
           firstName: dto.firstName,
           lastName: dto.lastName,
         },
