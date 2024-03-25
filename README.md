@@ -34,6 +34,15 @@ The Carpool Application is designed to facilitate ride-sharing between drivers a
 
 To interact with the Carpool Application's endpoints, import the provided Postman collection file `Carpool-Application.postman_collection` into Postman. This collection contains pre-configured requests for each endpoint along with example payloads.
 
+## Environment Variables
+
+The application uses the following environment variables:
+
+- `DATABASE_URL`: Connection URL for the PostgreSQL database.
+  Example: `DATABASE_URL="postgresql://username:password@localhost:port/carpool?schema=public"`
+- `JWT_SECRET`: Secret key for JWT token generation.
+  Example: `JWT_SECRET='some-secret'`
+
 ## Running the Server and Database
 
 To run the server and database:
