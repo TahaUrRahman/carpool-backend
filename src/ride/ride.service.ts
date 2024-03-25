@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RideDto } from './dto';
-import { User } from '@prisma/client';
+import { BookingStatus, User } from '@prisma/client';
 import { RideQueryDto } from './dto/rideQuery.dto';
 
 @Injectable()
@@ -26,14 +26,15 @@ export class RideService {
       } else if (ride.driverId === userId) {
         throw new BadRequestException('You cannot book your own ride');
       } else {
-        const existingBooking = await this.prisma.booking.findFirst({
+        const existingBookings = await this.prisma.booking.findMany({
           where: {
             rideId: ride.id,
             passengerId: userId,
           },
         });
+        const hasActiveBooking = existingBookings.some(booking => booking.status !== BookingStatus.CANCELLED);
 
-        if (existingBooking) {
+        if (hasActiveBooking) {
           throw new BadRequestException('You already have a booking in this ride');
         }
         await this.prisma.booking.create({
