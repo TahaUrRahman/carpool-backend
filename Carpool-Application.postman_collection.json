@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "92d530b6-0793-4dc3-a218-536df27186b3",
+		"name": "Carpool-Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16334360"
+	},
+	"item": [
+		{
+			"name": "Log In",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"var accessToken = responseBody.access_token;\r",
+							"pm.environment.set(\"auth\", accessToken);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"root@admin.com\",\r\n    \"password\":\"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Up",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"var accessToken = responseBody.access_token;\r",
+							"pm.environment.set(\"auth\", accessToken);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"root@user.com\",\r\n    \"password\":\"123\",\r\n    \"role\":\"NORMAL_USER\",\r\n    \"firstName\": \"Taha\",\r\n    \"lastName\": \"Rahman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Ride",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"source\": {\r\n        \"latitude\": 69.7749,\r\n        \"longitude\": 69.4194\r\n    },\r\n    \"destination\": {\r\n        \"latitude\": 69.0522,\r\n        \"longitude\": 69.2437\r\n    },\r\n    \"dateTime\": \"2024-03-24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rides",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rides"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search rides",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rides/search?riderLatitude=50.1&riderLongitude=50.1&destinationLatitude=50.11&destinationLongitude=50.1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rides",
+						"search"
+					],
+					"query": [
+						{
+							"key": "riderLatitude",
+							"value": "50.1"
+						},
+						{
+							"key": "riderLongitude",
+							"value": "50.1"
+						},
+						{
+							"key": "destinationLatitude",
+							"value": "50.11"
+						},
+						{
+							"key": "destinationLongitude",
+							"value": "50.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6IjEyM0Bzb21ldGhpbmcuY29tIiwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzExMjY5NzcxLCJleHAiOjE3MTEyNzA2NzF9.z3Fu1CYSqu57uwk2PbWReuUTzTRcvzqngmU3I94iNhE",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/locations",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get rides",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiMTIzQHVzZXIuY29tIiwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzExMjk1MDIxLCJleHAiOjE3MTEyOTU5MjF9.RVtQ7QvM2PAmVNIIRChKJuvwYIJBbSTYA7pmn9k7flo"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/rides",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rides"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book ride",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoicm9vdEB1c2VyLmNvbSIsInJvbGUiOiJOT1JNQUxfVVNFUiIsImlhdCI6MTcxMTMwNjI2MSwiZXhwIjoxNzExMzA3MTYxfQ.fnoSN2B0ocO80-N5VrZ3jTKOv7dBKhtEBsqZvgHzfzw",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/rides/:rideId/book",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rides",
+						":rideId",
+						"book"
+					],
+					"variable": [
+						{
+							"key": "rideId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoicm9vdEB1c2VyLmNvbSIsInJvbGUiOiJOT1JNQUxfVVNFUiIsImlhdCI6MTcxMTMxMDI2MCwiZXhwIjoxNzExMzExMTYwfQ.DCmY6BNK_8BVr6w5wjIr6BOuj8KxIzNxzcbhUm3w5q4",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/booking/:bookingId/cancel",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"booking",
+						":bookingId",
+						"cancel"
+					],
+					"variable": [
+						{
+							"key": "bookingId",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Bookings",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoicm9vdEB1c2VyLmNvbSIsInJvbGUiOiJOT1JNQUxfVVNFUiIsImlhdCI6MTcxMTMwNjI2MSwiZXhwIjoxNzExMzA3MTYxfQ.fnoSN2B0ocO80-N5VrZ3jTKOv7dBKhtEBsqZvgHzfzw",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/bookings",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
